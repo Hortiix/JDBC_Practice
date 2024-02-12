@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1d433a9e-5b2c-49c6-9893-ebb2e5714cb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/Bieren.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/Brouwers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/Soorten.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/db/BrouwersRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/db/SoortRepository.java" afterDir="false" />
+    <list default="true" id="1d433a9e-5b2c-49c6-9893-ebb2e5714cb3" name="Changes" comment="Tot 1.6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/vdab/AbstractRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/db/AbstractRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/be/vdab/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/vdab/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/be/vdab/PlantRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/db/BierenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/db/BrouwersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/be/vdab/bieren/db/BrouwersRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +77,19 @@
       <option name="presentableId" value="Default" />
       <updated>1707394241456</updated>
     </task>
+    <task id="LOCAL-00001" summary="Tot 1.6">
+      <option name="closed" value="true" />
+      <created>1707736582977</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1707736582977</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Tot 1.6" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tot 1.6" />
   </component>
 </project>

@@ -97,4 +97,50 @@ public class BrouwersRepository extends AbstractRepository {
             return brouwers;
         }
     }
+    public Optional<Brouwers> findById(long id)throws SQLException{
+        var sql = """
+                select id, naam, adres, postcode, gemeente, omzet
+                from brouwers
+                where id = ? 
+                """;
+        try(var connection = getConection()){
+            var statement = connection.prepareStatement(sql);
+            statement.setLong(1,id);
+            var result = statement.executeQuery();
+            return result.next() ? Optional.of(naarBrouwer(result)):Optional.empty();
+        }
+    }
+    public List<Brouwers> vanTotOmzet(int min,int max)throws SQLException{
+        if (max < 0 && min > max) throw new IllegalArgumentException();
+        var brouwers = new ArrayList<Brouwers>();
+        var sql = """
+                select id, naam, adres, postcode, gemeente, omzet
+                from brouwers
+                where omzet > ? AND omzet < ?
+                ORDER BY OMZET , ID
+                """;
+        try (var connection = getConection()) {
+            var statement = connection.prepareStatement(sql);
+            statement.setInt(1,min);
+            statement.setInt(2,max);
+            for (var result = statement.executeQuery(); result.next(); ) {
+                brouwers.add(naarBrouwer(result));
+            }
+            return brouwers;
+        }
+    }
+    public List<Brouwers> vanTotOmzetProcedure(int min,int max)throws SQLException{
+        if (max < 0 && min > max) throw new IllegalArgumentException();
+        var brouwers = new ArrayList<Brouwers>();
+
+        try (var connection = getConection()) {
+            var statement = connection.prepareCall("{call VanTot(?,?)}");
+            statement.setInt(1,min);
+            statement.setInt(2,max);
+            for (var result = statement.executeQuery(); result.next(); ) {
+                brouwers.add(naarBrouwer(result));
+            }
+            return brouwers;
+        }
+    }
 }
