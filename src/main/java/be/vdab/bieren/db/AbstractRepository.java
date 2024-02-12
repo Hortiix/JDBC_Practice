@@ -1,4 +1,4 @@
-package be.vdab;
+package be.vdab.bieren.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
