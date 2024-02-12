@@ -15,6 +15,8 @@ private static Scanner sc = new Scanner(System.in);
         SoortRepository soortRepository = new SoortRepository();
         BierenRepository bierenRepository = new BierenRepository();
         BrouwersRepository brouwersRepository = new BrouwersRepository();
+       // brouwersRepository.allBrouwers().forEach(System.out::println);
+        bierenRepository.brouwer1Faillietai();
         while (true) {
             tonenMenu();
             switch (sc.nextInt()) {
