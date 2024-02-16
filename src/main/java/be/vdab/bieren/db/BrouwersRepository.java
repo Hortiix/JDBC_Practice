@@ -155,14 +155,15 @@ public class BrouwersRepository extends AbstractRepository {
                 GROUP BY brouwers.naam;
                 """;
         List<BierenPerBrouwer> bierenPerBrouwers = new ArrayList<>();
-        var connection = getConection();
-        var statement = connection.prepareStatement(sql);
-        connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-        connection.setAutoCommit(false);
-        for (var result = statement.executeQuery(); result.next(); ) {
-            bierenPerBrouwers.add(new BierenPerBrouwer(result.getInt(1),result.getString("naam")));
+        try (var connection = getConection()) {
+            var statement = connection.prepareStatement(sql);
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            connection.setAutoCommit(false);
+            for (var result = statement.executeQuery(); result.next(); ) {
+                bierenPerBrouwers.add(new BierenPerBrouwer(result.getInt(1), result.getString("naam")));
+            }
+            connection.commit();
         }
-        connection.commit();
         return bierenPerBrouwers;
     }
 }

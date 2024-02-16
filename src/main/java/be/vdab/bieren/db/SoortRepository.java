@@ -4,6 +4,7 @@ import be.vdab.bieren.Soorten;
 import be.vdab.bieren.db.AbstractRepository;
 
 import java.awt.*;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class SoortRepository extends AbstractRepository {
         var connection = getConection();
         var statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             namen.add(resultSet.getString(1));
         }
         return namen;
@@ -32,9 +33,11 @@ public class SoortRepository extends AbstractRepository {
          * }
          */
     }
+
     private Soorten soortFactory(ResultSet resultSet) throws SQLException {
-        return new Soorten(resultSet.getLong("id"),resultSet.getString("naam"));
+        return new Soorten(resultSet.getLong("id"), resultSet.getString("naam"));
     }
+
     public List<Soorten> findAllOrderByeNaam() throws SQLException {
         var sql = """
                     SELECT soorten.id,soorten.naam
@@ -45,9 +48,30 @@ public class SoortRepository extends AbstractRepository {
         var connection = getConection();
         var statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             soortens.add(soortFactory(resultSet));
         }
-        return  soortens;
+        return soortens;
+    }
+
+    public List<String> bierenVanSorten(String soorten) throws SQLException {
+        List<String> listOfBieren = new ArrayList<>();
+        String sql = """
+                SELECT bieren.naam
+                FROM bieren
+                where bieren.soortId = (select soorten.id from soorten where soorten.naam LIKE ?);
+                """;
+        try (var connection = getConection()) {
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            var statement = connection.prepareStatement(sql);
+            statement.setString(1, soorten);
+            for(var result = statement.executeQuery(); result.next();){
+                listOfBieren.add(result.getString(1));
+            }
+            connection.commit();
+        }
+
+        return listOfBieren;
     }
 }
