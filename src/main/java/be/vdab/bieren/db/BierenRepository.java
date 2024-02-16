@@ -1,5 +1,6 @@
 package be.vdab.bieren.db;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class BierenRepository extends AbstractRepository {
@@ -13,7 +14,7 @@ public class BierenRepository extends AbstractRepository {
         return statement.executeUpdate();
     }
 
-    public void brouwer1Faillietai()throws SQLException{
+    public void brouwer1Faillietai() throws SQLException {
         var udateBierenVanafAlcool = """
                 UPDATE bieren
                 SET brouwerId = 2
@@ -37,6 +38,28 @@ public class BierenRepository extends AbstractRepository {
         System.out.println(statementAlc.executeUpdate());
         System.out.println(statementDel.executeUpdate());
         connection.commit();
+    }
+
+    public void tonenAllBierenVanXMand(int mand) throws SQLException {
+        var sql = """
+                SELECT id,naam,brouwerId,soortId,alcohol,sinds
+                FROM bieren
+                WHERE MONTH(sinds) = ?
+                ORDER BY sinds;
+                """;
+        var connection = getConection();
+        var statement = connection.prepareStatement(sql);
+        connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+        connection.setAutoCommit(false);
+        statement.setInt(1, mand);
+        StringBuilder sb = new StringBuilder("RESULT FOR MAND -> ").append(mand);
+        for (var result = statement.executeQuery(); result.next(); ) {
+            String formattedResult = String.format("\n\t%d\n\t%s\n\t%f\n\t%s", result.getLong("id"), result.getString("naam"), result.getDouble("alcohol"), result.getDate("sinds").toString());
+            sb.append("\n\n").append(formattedResult);
+        }
+        connection.commit();
+        System.out.println(sb.toString());
+
     }
 
 }

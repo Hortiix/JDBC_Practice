@@ -1,6 +1,7 @@
 package be.vdab.bieren.db;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -145,5 +146,23 @@ public class BrouwersRepository extends AbstractRepository {
             }
             return brouwers;
         }
+    }
+
+    public List<BierenPerBrouwer> aantalBierenPerBrouwer() throws SQLException {
+        String sql = """
+                SELECT  count(brouwerId) , brouwers.naam
+                FROM bieren inner join brouwers on bieren.brouwerId = brouwers.id
+                GROUP BY brouwers.naam;
+                """;
+        List<BierenPerBrouwer> bierenPerBrouwers = new ArrayList<>();
+        var connection = getConection();
+        var statement = connection.prepareStatement(sql);
+        connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+        connection.setAutoCommit(false);
+        for (var result = statement.executeQuery(); result.next(); ) {
+            bierenPerBrouwers.add(new BierenPerBrouwer(result.getInt(1),result.getString("naam")));
+        }
+        connection.commit();
+        return bierenPerBrouwers;
     }
 }
